@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import logoImg from '../../assets/img/logo.png';
 
 const Footer = () => {
   return (
@@ -8,7 +9,7 @@ const Footer = () => {
         <div className="footer-content">
           <div className="footer-section">
             <div className="footer-logo">
-              <img src="/assets/img/logo.png" alt="Logo de Témpora" />
+              <img src={logoImg} alt="Logo de Témpora" />
               <h3>Témpora</h3>
             </div>
             <p>Elegancia atemporal en cada reloj. Descubrí la perfección del tiempo.</p>
