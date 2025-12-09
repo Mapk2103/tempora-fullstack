@@ -200,15 +200,9 @@ El proyecto utiliza variables de entorno para configuración sensible. Ver archi
 - `JWT_SECRET`: Clave secreta para tokens JWT
 - `JWT_EXPIRE`: Tiempo de expiración de tokens
 
-## Despliegue
+## Ejecución del proyecto
 
-Para desplegar la aplicación en producción:
-
-- **Backend:** Render, Railway o Heroku
-- **Frontend:** Vercel o Netlify
-- **Base de datos:** MongoDB Atlas (plan gratuito disponible)
-
-Asegúrate de configurar las variables de entorno en cada plataforma de despliegue.
+La aplicación está configurada para ejecutarse localmente en modo desarrollo. Para instrucciones de despliegue en producción, consultar la documentación de las plataformas de hosting.
 
 ## Autor
 
