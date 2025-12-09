@@ -13,9 +13,13 @@ const Products = () => {
 
   const fetchProducts = async () => {
     try {
+      console.log('🔍 Fetching products from API...');
       const response = await productsAPI.getAll();
+      console.log('✅ Products response:', response.data);
       setProducts(response.data.products);
     } catch (err) {
+      console.error('❌ Error fetching products:', err);
+      console.error('Error details:', err.response?.data || err.message);
       setError('Error al cargar productos');
     } finally {
       setLoading(false);
