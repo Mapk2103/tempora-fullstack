@@ -205,7 +205,7 @@ El proyecto utiliza variables de entorno para configuración sensible. Ver archi
 La aplicación está desplegada y **accesible públicamente** en:
 
 ### 🌐 Aplicación en Producción
-**URL:** https://tempora.nexar.service
+**URL:** https://tempora.nexar.services
 
 ### Detalles del deployment:
 - **Frontend:** Vercel
