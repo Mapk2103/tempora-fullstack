@@ -1,97 +1,109 @@
-# Témpora - Tienda de Relojes de Lujo ⌚
+# Témpora - E-commerce de Relojes de Lujo
 
-Aplicación web fullstack para la venta de relojes de lujo con sistema de autenticación, gestión de productos (CRUD completo) y cotizaciones de oro.
+Aplicación web fullstack para la venta de relojes de lujo con sistema de autenticación, gestión de productos mediante CRUD completo y módulo de cotizaciones de oro.
 
-## Comenzando 🚀
+## Tecnologías utilizadas
 
-Estas instrucciones te permitirán obtener una copia del proyecto en funcionamiento en tu máquina local para propósitos de desarrollo y pruebas.
+**Backend:**
+- Node.js con Express
+- MongoDB con Mongoose
+- JWT para autenticación
+- bcryptjs para encriptación de contraseñas
 
-### Pre-requisitos 📋
+**Frontend:**
+- React 18
+- Vite como build tool
+- React Router DOM para navegación
+- Axios para peticiones HTTP
+- Context API para estado global
 
-Necesitas tener instalado lo siguiente:
+## Requisitos previos
 
-```
-Node.js (v14 o superior)
-MongoDB (local o cuenta en MongoDB Atlas)
-npm (viene con Node.js)
-Git
-```
+Antes de comenzar, asegúrate de tener instalado:
 
-### Instalación 🔧
+- Node.js (versión 14 o superior)
+- MongoDB (instalación local o cuenta en MongoDB Atlas)
+- npm (incluido con Node.js)
 
-Sigue estos pasos para configurar el entorno de desarrollo:
+## Instalación
 
-**1. Clonar el repositorio**
+### 1. Clonar el repositorio
 
 ```bash
-git clone https://github.com/TU_USUARIO/tempora-fullstack.git
+git clone https://github.com/Mapk2103/tempora-fullstack.git
 cd tempora-fullstack
 ```
 
-**2. Configurar el Backend**
+### 2. Configurar el backend
+
+Navegar a la carpeta del servidor e instalar dependencias:
 
 ```bash
 cd server
 npm install
 ```
 
-Crear archivo `.env` en la carpeta `server/` con las siguientes variables:
+Crear un archivo `.env` en la carpeta `server/` con las siguientes variables:
 
 ```env
 NODE_ENV=development
 PORT=5000
 
-# MongoDB - Opción 1: Base de datos local
+# Opción 1: MongoDB local
 MONGODB_URI=mongodb://localhost:27017/tempora_db
 
-# MongoDB - Opción 2: MongoDB Atlas (nube)
-# MONGODB_URI=mongodb+srv://usuario:contraseña@cluster.mongodb.net/tempora_db
+# Opción 2: MongoDB Atlas (nube)
+# MONGODB_URI=mongodb+srv://usuario:password@cluster.mongodb.net/tempora_db
 
-# JWT Secret (cambiar por una clave segura)
-JWT_SECRET=tu_clave_secreta_super_segura_cambiala_por_favor
+# JWT Configuration
+JWT_SECRET=cambiar_por_clave_secreta_segura
 JWT_EXPIRE=30d
 ```
 
-**3. Configurar el Frontend**
+**Importante:** Reemplaza `JWT_SECRET` con una clave aleatoria y segura.
+
+### 3. Configurar el frontend
 
 ```bash
 cd ../client
 npm install
 ```
 
-**4. Iniciar MongoDB (si usas instalación local)**
+### 4. Iniciar MongoDB
 
-Windows:
+Si utilizas MongoDB de forma local:
+
+**Windows:**
 ```bash
 mongod
 ```
 
-Mac/Linux:
+**Linux/Mac:**
 ```bash
 sudo systemctl start mongod
 ```
 
-## Ejecutando la aplicación ⚙️
+## Ejecución
 
-### Modo Desarrollo
+### Modo desarrollo
 
-Necesitas **dos terminales** abiertas:
+Abre dos terminales diferentes:
 
 **Terminal 1 - Backend:**
 ```bash
 cd server
 npm run dev
 ```
-El servidor correrá en `http://localhost:5000`
+Servidor corriendo en: `http://localhost:5000`
 
 **Terminal 2 - Frontend:**
 ```bash
 cd client
 npm run dev
 ```
-El cliente correrá en `http://localhost:5173`
+Cliente corriendo en: `http://localhost:5173`
 
-### Modo Producción
+### Modo producción
 
 **Backend:**
 ```bash
@@ -106,128 +118,102 @@ npm run build
 npm run preview
 ```
 
-## Despliegue 📦
-
-Para desplegar en producción:
-
-1. **Backend**: Render.com, Railway, Heroku
-2. **Frontend**: Vercel, Netlify
-3. **Base de datos**: MongoDB Atlas (gratuito)
-
-Ver archivo `.env.example` en cada carpeta para las variables de entorno necesarias.
-
-## Construido con 🛠️
-
-### Backend
-* [Node.js](https://nodejs.org/) - Entorno de ejecución para JavaScript
-* [Express](https://expressjs.com/) - Framework web para Node.js
-* [MongoDB](https://www.mongodb.com/) - Base de datos NoSQL
-* [Mongoose](https://mongoosejs.com/) - ODM para MongoDB
-* [JWT](https://jwt.io/) - Autenticación mediante tokens
-* [bcryptjs](https://github.com/dcodeIO/bcrypt.js) - Encriptación de contraseñas
-
-### Frontend
-* [React](https://reactjs.org/) - Biblioteca de JavaScript para interfaces
-* [Vite](https://vitejs.dev/) - Build tool y dev server
-* [React Router](https://reactrouter.com/) - Enrutamiento para React
-* [Axios](https://axios-http.com/) - Cliente HTTP para consumir APIs
-* [Context API](https://reactjs.org/docs/context.html) - Manejo de estado global
-
-## Funcionalidades Principales ✨
-
-### Autenticación y Seguridad 🔐
-- ✅ Registro de usuarios con validación
-- ✅ Login con JWT
-- ✅ Contraseñas encriptadas con bcrypt
-- ✅ Rutas protegidas (middleware de autenticación)
-- ✅ Roles de usuario (admin/usuario)
-
-### CRUD de Productos 📦
-- ✅ **Crear**: Panel de admin para agregar relojes
-- ✅ **Leer**: Listado de productos con detalles
-- ✅ **Actualizar**: Editar información de productos
-- ✅ **Eliminar**: Borrado de productos (admin)
-
-### Sistema de Cotizaciones 💰
-- ✅ Calculadora de valor de oro
-- ✅ Guardar cotizaciones personalizadas
-- ✅ Historial de cotizaciones por usuario
-
-## Estructura del Proyecto 📂
+## Estructura del proyecto
 
 ```
 tempora-fullstack/
-├── client/                     # Frontend React
+├── client/                 # Aplicación React
 │   ├── src/
-│   │   ├── components/        # Componentes reutilizables
-│   │   ├── pages/             # Páginas de la aplicación
-│   │   ├── contexts/          # Context API
-│   │   ├── services/          # Servicios API (axios)
-│   │   └── App.jsx            # Componente principal
-│   ├── package.json
-│   └── vite.config.js
+│   │   ├── components/    # Componentes reutilizables
+│   │   ├── pages/         # Vistas principales
+│   │   ├── contexts/      # Contextos de React
+│   │   ├── services/      # Configuración de API
+│   │   └── App.jsx
+│   └── package.json
 │
-├── server/                     # Backend Node.js/Express
-│   ├── controllers/           # Lógica de negocio
-│   ├── models/                # Modelos de Mongoose
-│   ├── routes/                # Rutas de la API
-│   ├── middleware/            # Middleware de autenticación
-│   ├── config/                # Configuración de BD
-│   ├── index.js               # Punto de entrada
+├── server/                 # API REST con Express
+│   ├── controllers/       # Lógica de negocio
+│   ├── models/            # Modelos de Mongoose
+│   ├── routes/            # Definición de rutas
+│   ├── middleware/        # Middlewares personalizados
+│   ├── config/            # Configuración de BD
 │   └── package.json
 │
 └── README.md
 ```
 
-## Endpoints de la API 🌐
+## Funcionalidades principales
+
+### Autenticación y autorización
+- Registro de usuarios con validación de datos
+- Login con generación de tokens JWT
+- Contraseñas hasheadas con bcrypt
+- Middleware de protección de rutas
+- Sistema de roles (administrador/usuario)
+
+### Gestión de productos (CRUD)
+- **Crear:** Panel administrativo para agregar nuevos relojes
+- **Leer:** Visualización de catálogo de productos
+- **Actualizar:** Edición de información de productos existentes
+- **Eliminar:** Borrado de productos del sistema
+
+### Sistema de cotizaciones
+- Calculadora de valor de oro basada en peso y quilates
+- Guardado de cotizaciones por usuario
+- Historial de cotizaciones realizadas
+
+## API Endpoints
 
 ### Autenticación
 ```
-POST   /api/auth/register    - Registrar nuevo usuario
-POST   /api/auth/login       - Iniciar sesión
-GET    /api/auth/me          - Obtener usuario actual (requiere auth)
+POST   /api/auth/register    # Crear nuevo usuario
+POST   /api/auth/login       # Iniciar sesión
+GET    /api/auth/me          # Obtener usuario autenticado
 ```
 
 ### Productos
 ```
-GET    /api/products         - Obtener todos los productos
-GET    /api/products/:id     - Obtener un producto
-POST   /api/products         - Crear producto (solo admin)
-PUT    /api/products/:id     - Actualizar producto (solo admin)
-DELETE /api/products/:id     - Eliminar producto (solo admin)
+GET    /api/products         # Listar todos los productos
+GET    /api/products/:id     # Obtener producto específico
+POST   /api/products         # Crear producto (admin)
+PUT    /api/products/:id     # Actualizar producto (admin)
+DELETE /api/products/:id     # Eliminar producto (admin)
 ```
 
 ### Cotizaciones
 ```
-POST   /api/quotations                - Crear cotización (requiere auth)
-GET    /api/quotations/my-quotations  - Mis cotizaciones
-GET    /api/quotations                - Todas (solo admin)
-PUT    /api/quotations/:id            - Actualizar (admin)
-DELETE /api/quotations/:id            - Eliminar
+POST   /api/quotations                # Crear cotización
+GET    /api/quotations/my-quotations  # Obtener mis cotizaciones
+GET    /api/quotations                # Listar todas (admin)
+PUT    /api/quotations/:id            # Actualizar cotización (admin)
+DELETE /api/quotations/:id            # Eliminar cotización
 ```
 
-## Uso de la Aplicación 💻
+## Variables de entorno
 
-### Como Usuario
-1. Registrarse en `/registro`
-2. Iniciar sesión en `/login`
-3. Ver productos disponibles en `/products`
-4. Realizar cotizaciones de oro en `/vender-oro`
-5. Ver mis cotizaciones en `/mis-cotizaciones`
+El proyecto utiliza variables de entorno para configuración sensible. Ver archivo `.env.example` en cada carpeta para referencia.
 
-### Como Administrador
-1. Iniciar sesión con credenciales de admin
-2. Acceder al panel de administración en `/admin`
-3. Crear, editar y eliminar productos
-4. Ver todas las cotizaciones de usuarios
+### Backend (server/.env)
+- `NODE_ENV`: Entorno de ejecución
+- `PORT`: Puerto del servidor
+- `MONGODB_URI`: String de conexión a MongoDB
+- `JWT_SECRET`: Clave secreta para tokens JWT
+- `JWT_EXPIRE`: Tiempo de expiración de tokens
 
-## Autor ✒️
+## Despliegue
 
-* **Martín Peña** - *Desarrollo Fullstack* - [GitHub](https://github.com/TU_USUARIO)
+Para desplegar la aplicación en producción:
 
-## Licencia 📄
+- **Backend:** Render, Railway o Heroku
+- **Frontend:** Vercel o Netlify
+- **Base de datos:** MongoDB Atlas (plan gratuito disponible)
 
-Este proyecto fue desarrollado como proyecto académico para la materia de Desarrollo Web Fullstack.
+Asegúrate de configurar las variables de entorno en cada plataforma de despliegue.
 
----
-⌨️ con ❤️ por [Martín Peña](https://github.com/TU_USUARIO) 😊
+## Autor
+
+Martín Peña - Proyecto Final de Desarrollo Web Fullstack
+
+## Licencia
+
+Este proyecto fue desarrollado con fines académicos.
