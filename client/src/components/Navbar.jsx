@@ -8,11 +8,6 @@ const Navbar = () => {
   const navigate = useNavigate();
   const { user, logout } = useUser();
 
-  // DEBUG: Ver qué rol tiene el usuario
-  console.log('🔍 DEBUG Navbar - User:', user);
-  console.log('🔍 DEBUG Navbar - Role:', user.role, 'Type:', typeof user.role);
-  console.log('🔍 DEBUG Navbar - Is admin?', user.role === 'admin');
-
   const isActive = (path) => location.pathname === path;
 
   const handleLogout = () => {
