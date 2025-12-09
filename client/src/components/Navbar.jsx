@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useUser } from '../contexts/UserContexts';
+import logoImg from '../../assets/img/logo.png';
 
 const Navbar = () => {
   const location = useLocation();
@@ -18,7 +19,7 @@ const Navbar = () => {
     <nav className="navbar">
       <div className="container">
         <Link to="/" className="logo">
-          <img src="/assets/img/logo.png" alt="Logo de Témpora" />
+          <img src={logoImg} alt="Logo de Témpora" />
         </Link>
 
         <ul className="nav-links">
