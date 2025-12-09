@@ -1,0 +1,30 @@
+@import './components/css/base.css';
+
+
+@import './components/css/navbar.css';
+@import './components/css/hero.css';
+@import './components/css/products.css';
+@import './components/css/sell-jewelry.css';
+@import './components/css/footer.css';
+
+
+#root {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: var(--color-navy-dark);
+}
+
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+
+@media (max-width: 768px) {
+  .container {
+    padding: 0 15px;
+  }
+}

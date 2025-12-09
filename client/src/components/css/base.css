@@ -1,0 +1,67 @@
+:root {
+  /* Paleta de colores */
+  --color-navy-dark: #0e1d35;
+  --color-navy: #15253f;
+  --color-navy-light: #2b3d5b;
+
+  --color-grey-dark: #7c8594;
+  --color-grey: #c3c3c3;
+  --color-grey-light: #dddee5;
+
+  --color-gold: #d6b86a;
+
+  --color-white: #ffffff;
+  --color-black: #000000;
+
+  --font-main: 'Libre Baskerville', serif;
+  --font-alt: 'Poppins', sans-serif;
+}
+
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-main);
+  background-color: var(--color-navy-dark);
+  color: var(--color-grey-light);
+  line-height: 1.6;
+  font-size: 16px;
+}
+
+
+a {
+  color: var(--color-gold);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: var(--color-white);
+}
+
+/* Títulos generales */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-main);
+  font-weight: normal;
+  color: var(--color-white);
+}
+
+/* Botones generales */
+button {
+  font-family: var(--font-alt);
+  background-color: transparent;
+  color: var(--color-gold);
+  border: 1px solid var(--color-gold);
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+button:hover {
+  background-color: var(--color-gold);
+  color: var(--color-navy-dark);
+}

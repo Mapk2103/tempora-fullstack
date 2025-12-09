@@ -1,0 +1,438 @@
+.sell-jewelry-page {
+  background: var(--color-navy-dark);
+  padding: 0;
+  min-height: calc(100vh - 200px);
+}
+
+.sell-jewelry-page .hero-section {
+  background: linear-gradient(135deg, var(--color-navy) 0%, var(--color-navy-dark) 100%);
+  padding: 100px 0 80px;
+  text-align: center;
+  border-bottom: 2px solid var(--color-gold);
+}
+
+.sell-jewelry-page .hero-section h1 {
+  font-size: 3.5rem;
+  margin-bottom: 20px;
+  color: var(--color-gold);
+  font-family: var(--font-main);
+}
+
+.sell-jewelry-page .hero-section .subtitle {
+  font-size: 1.3rem;
+  color: var(--color-grey-light);
+  max-width: 600px;
+  margin: 0 auto;
+  font-family: var(--font-alt);
+}
+
+.vender-oro-section {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.section-header h2 {
+  font-size: 2.5rem;
+  color: var(--color-white);
+  margin-bottom: 15px;
+  font-family: var(--font-main);
+}
+
+.section-header p {
+  font-size: 1.2rem;
+  color: var(--color-grey-light);
+  font-family: var(--font-alt);
+}
+
+/* Precio del oro en tiempo real */
+.gold-price-info {
+  margin-bottom: 40px;
+}
+
+.gold-price-display {
+  background: linear-gradient(135deg, var(--color-gold), #b7791f);
+  color: var(--color-white);
+  padding: 30px;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 4px 15px rgba(214, 158, 46, 0.3);
+  border: 2px solid var(--color-gold);
+}
+
+.price-container {
+  margin-bottom: 15px;
+}
+
+.price-label {
+  font-size: 1.2rem;
+  margin-right: 15px;
+  font-family: var(--font-alt);
+}
+
+.price-value {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-right: 10px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  font-family: var(--font-main);
+}
+
+.price-currency {
+  font-size: 1.2rem;
+  font-weight: bold;
+  font-family: var(--font-alt);
+}
+
+.last-updated {
+  font-size: 0.9rem;
+  opacity: 0.9;
+  font-family: var(--font-alt);
+}
+
+/* Formulario de venta */
+.sell-form-container {
+  background: var(--color-navy);
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--color-grey);
+}
+
+.sell-form-container h3 {
+  text-align: center;
+  color: var(--color-white);
+  margin-bottom: 30px;
+  font-size: 1.8rem;
+  font-family: var(--font-main);
+}
+
+.sell-form {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group.full-width {
+  grid-column: 1 / -1;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: var(--color-white);
+  font-family: var(--font-alt);
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid var(--color-grey);
+  border-radius: 6px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+  background-color: var(--color-navy-dark);
+  color: var(--color-white);
+  font-family: var(--font-alt);
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--color-gold);
+  box-shadow: 0 0 0 3px rgba(214, 184, 106, 0.1);
+}
+
+.submit-btn {
+  width: 100%;
+  padding: 15px;
+  background: var(--color-gold);
+  color: var(--color-navy-dark);
+  border: 2px solid var(--color-gold);
+  border-radius: 6px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 20px;
+  font-family: var(--font-alt);
+}
+
+.submit-btn:hover:not(:disabled) {
+  background: transparent;
+  color: var(--color-gold);
+}
+
+.submit-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* Valor estimado */
+.estimated-value {
+  background: var(--color-navy-light);
+  padding: 20px;
+  border-radius: 8px;
+  margin: 20px 0;
+  text-align: center;
+  border: 2px solid var(--color-gold);
+}
+
+.estimated-value h4 {
+  color: var(--color-white);
+  margin-bottom: 15px;
+  font-size: 1.3rem;
+  font-family: var(--font-main);
+}
+
+.value-display {
+  font-size: 2rem;
+  font-weight: bold;
+  color: var(--color-gold);
+  margin-bottom: 10px;
+  font-family: var(--font-main);
+}
+
+.estimated-value small {
+  color: var(--color-grey-light);
+  font-style: italic;
+  font-family: var(--font-alt);
+}
+
+
+.submit-message {
+  margin-top: 20px;
+  padding: 15px;
+  border-radius: 6px;
+  text-align: center;
+  font-weight: bold;
+  font-family: var(--font-alt);
+}
+
+.submit-message.success {
+  background: var(--color-navy-light);
+  color: var(--color-white);
+  border: 1px solid var(--color-gold);
+}
+
+.services-section {
+  padding: 80px 0;
+  background: var(--color-navy-dark);
+}
+
+.services-section h2 {
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 50px;
+  color: var(--color-white);
+  font-family: var(--font-main);
+}
+
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 40px;
+  margin-top: 40px;
+}
+
+.service-card {
+  background: var(--color-navy);
+  padding: 40px 30px;
+  border-radius: 10px;
+  text-align: center;
+  border: 1px solid var(--color-navy-light);
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.service-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--color-gold);
+  box-shadow: 0 8px 30px rgba(214, 184, 106, 0.2);
+}
+
+.service-card .icon {
+  font-size: 3rem;
+  margin-bottom: 20px;
+}
+
+.service-card h3 {
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+  color: var(--color-gold);
+  font-family: var(--font-main);
+}
+
+.service-card p {
+  color: var(--color-grey-light);
+  font-family: var(--font-alt);
+  line-height: 1.6;
+}
+
+.contact-section {
+  padding: 80px 0;
+  background: var(--color-navy);
+  text-align: center;
+  border-top: 2px solid var(--color-gold);
+}
+
+.contact-section h2 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  color: var(--color-white);
+  font-family: var(--font-main);
+}
+
+.contact-section p {
+  font-size: 1.2rem;
+  margin-bottom: 30px;
+  color: var(--color-grey-light);
+  font-family: var(--font-alt);
+}
+
+.contact-btn {
+  background-color: var(--color-gold);
+  color: var(--color-navy-dark);
+  border: none;
+  padding: 15px 40px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: var(--font-alt);
+}
+
+.contact-btn:hover {
+  background-color: var(--color-white);
+  transform: scale(1.05);
+}
+
+
+.calculator-section {
+  padding: 80px 0;
+  background: var(--color-navy);
+}
+
+.calculator-section h2 {
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  color: var(--color-white);
+  font-family: var(--font-main);
+}
+
+.calculator-section > .container > p {
+  text-align: center;
+  font-size: 1.2rem;
+  margin-bottom: 50px;
+  color: var(--color-grey-light);
+  font-family: var(--font-alt);
+}
+
+.calculator-form {
+  max-width: 600px;
+  margin: 0 auto;
+  background: var(--color-navy-dark);
+  padding: 40px;
+  border-radius: 15px;
+  border: 1px solid var(--color-navy-light);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+}
+
+.calculate-btn {
+  width: 100%;
+  background-color: var(--color-gold);
+  color: var(--color-navy-dark);
+  border: none;
+  padding: 15px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: var(--font-alt);
+  margin-top: 10px;
+}
+
+.calculate-btn:hover {
+  background-color: var(--color-white);
+  transform: scale(1.02);
+}
+
+
+@media (max-width: 768px) {
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+  
+  .sell-form-container {
+    padding: 20px;
+    margin: 0 20px;
+  }
+  
+  .section-header h2 {
+    font-size: 2rem;
+  }
+  
+  .price-value {
+    font-size: 2rem;
+  }
+  
+  .sell-jewelry-page .hero-section h1 {
+    font-size: 2.5rem;
+  }
+  
+  .sell-jewelry-page .hero-section .subtitle {
+    font-size: 1.1rem;
+  }
+  
+  .services-grid {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+  
+  .service-card {
+    padding: 30px 20px;
+  }
+  
+  .contact-section h2 {
+    font-size: 2rem;
+  }
+  
+  .calculator-form {
+    padding: 25px;
+    margin: 0 20px;
+  }
+  
+  .calculator-section h2 {
+    font-size: 2rem;
+  }
+  
+  .estimated-value .value-display {
+    font-size: 2.5rem;
+  }
+  
+  .gold-price-display p {
+    font-size: 1rem;
+  }
+}
