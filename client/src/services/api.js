@@ -1,6 +1,5 @@
 import axios from 'axios';
 
-// Usar URL de producción por defecto, localhost solo en desarrollo local
 const API_URL = import.meta.env.VITE_API_URL || 'https://tempora-fullstack.onrender.com/api';
 
 const api = axios.create({

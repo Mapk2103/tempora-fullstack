@@ -9,7 +9,7 @@ const Products = () => {
       const response = await productsAPI.getAll();
       return response.data.products;
     },
-    staleTime: 5 * 60 * 1000, // Datos frescos por 5 minutos
+    staleTime: 5 * 60 * 1000,
   });
 
   const products = data || [];

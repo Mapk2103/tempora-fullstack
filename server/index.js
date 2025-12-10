@@ -21,7 +21,6 @@ app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Health check endpoint - mantiene el servidor despierto
 app.get('/api/health', (req, res) => {
   res.status(200).json({
     status: 'OK',
