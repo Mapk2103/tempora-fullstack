@@ -9,7 +9,9 @@ const Products = () => {
       const response = await productsAPI.getAll();
       return response.data.products;
     },
-    staleTime: 5 * 60 * 1000,
+    staleTime: 0,
+    refetchOnMount: true,
+    refetchOnWindowFocus: true,
   });
 
   const products = data || [];

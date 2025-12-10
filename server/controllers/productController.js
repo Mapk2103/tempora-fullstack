@@ -7,7 +7,7 @@ exports.getAllProducts = async (req, res) => {
       .sort({ createdAt: -1 })
       .lean();
 
-    res.set('Cache-Control', 'public, max-age=300');
+    res.set('Cache-Control', 'no-cache');
 
     res.status(200).json({
       success: true,
