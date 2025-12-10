@@ -2,7 +2,15 @@ const Product = require('../models/Product');
 
 exports.getAllProducts = async (req, res) => {
   try {
-    const products = await Product.find({ isActive: true }).sort({ createdAt: -1 });
+    // Usar lean() para devolver objetos JavaScript planos (más rápido)
+    // Seleccionar solo los campos necesarios
+    const products = await Product.find({ isActive: true })
+      .select('name description price image category stock features createdAt')
+      .sort({ createdAt: -1 })
+      .lean();
+
+    // Agregar caché en los headers HTTP
+    res.set('Cache-Control', 'public, max-age=300'); // 5 minutos
 
     res.status(200).json({
       success: true,

@@ -1,31 +1,35 @@
-import React, { useState, useEffect } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import { productsAPI } from '../services/api';
 import '../components/css/products.css';
 
 const Products = () => {
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
-
-  useEffect(() => {
-    fetchProducts();
-  }, []);
-
-  const fetchProducts = async () => {
-    try {
+  const { data, isLoading, error } = useQuery({
+    queryKey: ['products'],
+    queryFn: async () => {
       const response = await productsAPI.getAll();
-      setProducts(response.data.products);
-    } catch (err) {
-      setError('Error al cargar productos');
-    } finally {
-      setLoading(false);
-    }
-  };
+      return response.data.products;
+    },
+    staleTime: 5 * 60 * 1000, // Datos frescos por 5 minutos
+  });
 
-  if (loading) {
+  const products = data || [];
+
+  if (isLoading) {
     return (
       <div className="products-page">
-        <div className="loading-message">Cargando productos...</div>
+        {/* Skeleton loaders para 3 productos */}
+        {[1, 2, 3].map((item) => (
+          <div key={item} className="skeleton-container">
+            <div className="skeleton-content">
+              <div className="skeleton-title"></div>
+              <div className="skeleton-text"></div>
+              <div className="skeleton-text"></div>
+              <div className="skeleton-text"></div>
+              <div className="skeleton-price"></div>
+              <div className="skeleton-button"></div>
+            </div>
+          </div>
+        ))}
       </div>
     );
   }
@@ -33,7 +37,7 @@ const Products = () => {
   if (error) {
     return (
       <div className="products-page">
-        <div className="error-message">{error}</div>
+        <div className="error-message">Error al cargar productos</div>
       </div>
     );
   }

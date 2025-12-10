@@ -48,6 +48,10 @@ const productSchema = new mongoose.Schema({
   }
 });
 
+// Índices para optimizar las consultas
+productSchema.index({ isActive: 1, createdAt: -1 });
+productSchema.index({ category: 1, isActive: 1 });
+
 productSchema.pre('save', function(next) {
   this.updatedAt = Date.now();
   next();

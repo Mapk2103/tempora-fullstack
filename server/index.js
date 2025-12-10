@@ -21,6 +21,15 @@ app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Health check endpoint - mantiene el servidor despierto
+app.get('/api/health', (req, res) => {
+  res.status(200).json({
+    status: 'OK',
+    timestamp: new Date().toISOString(),
+    uptime: process.uptime()
+  });
+});
+
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/products', require('./routes/products'));
 app.use('/api/quotations', require('./routes/quotations'));
@@ -30,6 +39,7 @@ app.get('/', (req, res) => {
     message: 'API de Témpora - Tienda de Relojes de Oro',
     version: '1.0.0',
     endpoints: {
+      health: '/api/health',
       auth: '/api/auth',
       products: '/api/products',
       quotations: '/api/quotations'
