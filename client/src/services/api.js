@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = import.meta.env.VITE_API_URL || 'https://tempora-fullstack.onrender.com/api';
+const API_URL = import.meta.env.VITE_API_URL || '/api';
 
 const api = axios.create({
   baseURL: API_URL,
@@ -36,7 +36,12 @@ export const productsAPI = {
   delete: (id) => api.delete(`/products/${id}`)
 };
 
+export const marketAPI = {
+  getGoldPrice: () => api.get('/market/gold')
+};
+
 export const quotationsAPI = {
+  estimate: (quotationData) => api.post('/quotations/estimate', quotationData),
   create: (quotationData) => api.post('/quotations', quotationData),
   getMyQuotations: () => api.get('/quotations/my-quotations'),
   getAll: () => api.get('/quotations'),

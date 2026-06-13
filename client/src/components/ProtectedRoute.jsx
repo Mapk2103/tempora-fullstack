@@ -3,7 +3,16 @@ import { Navigate } from 'react-router-dom';
 import { useUser } from '../contexts/UserContexts';
 
 const ProtectedRoute = ({ children, adminOnly = false }) => {
-  const { user } = useUser();
+  const { user, loading } = useUser();
+
+  if (loading) {
+    return (
+      <main className="page-state">
+        <div className="state-spinner" aria-hidden="true" />
+        <h1>Validando sesión</h1>
+      </main>
+    );
+  }
 
   if (!user.isLoggedIn) {
     return <Navigate to="/login" replace />;

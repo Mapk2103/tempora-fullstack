@@ -1,7 +1,9 @@
 const mongoose = require('mongoose');
+const configureDns = require('./dns');
 
 const connectDB = async () => {
   try {
+    configureDns();
     const conn = await mongoose.connect(process.env.MONGODB_URI);
 
     console.log(`MongoDB conectado: ${conn.connection.host}`);

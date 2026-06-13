@@ -1,15 +1,17 @@
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const Product = require('./models/Product');
+const configureDns = require('./config/dns');
 
 dotenv.config();
+configureDns();
 
 const sampleProducts = [
   {
     name: 'Tempus Aurfus',
     description: 'Donde el tiempo vale oro. Un homenaje al resplandor y la grandeza. TEMPUS AURFUS deslumbra con su acabado dorado integral, fusionando la precisión relojera con una estética imperial. No marca la hora: la consagra.',
     price: 12500.00,
-    image: '/assets/img/reloj1.jpg',
+    image: '/assets/img/reloj1.webp',
     category: 'reloj-oro',
     stock: 5,
     features: ['Oro 18K', 'Resistente al agua', 'Movimiento suizo', 'Garantía 5 años']
@@ -18,7 +20,7 @@ const sampleProducts = [
     name: 'PENJAURA',
     description: 'El poder del tiempo, esculpido en acero. PENJAURA impone con su presencia silenciosa y su esfera de textura fracturada, que evoca la solidez del mármol y la eternidad del tiempo. Diseñado para quienes no necesitan brillar: dominan.',
     price: 8900.00,
-    image: '/assets/img/reloj2.jpg',
+    image: '/assets/img/reloj2.png',
     category: 'reloj-acero',
     stock: 8,
     features: ['Acero inoxidable', 'Esfera de mármol', 'Cronógrafo', 'Resistente a rayones']
@@ -27,7 +29,7 @@ const sampleProducts = [
     name: 'GELLER',
     description: 'Diseño clásico, esencia contemporánea. Un reloj que encarna la sobriedad del oro y la precisión del tiempo. GELLER combina estética y funcionalidad en una pieza creada para perdurar.',
     price: 15800.00,
-    image: '/assets/img/reloj3.jpg',
+    image: '/assets/img/reloj3.webp',
     category: 'reloj-clasico',
     stock: 3,
     features: ['Oro 24K', 'Diseño minimalista', 'Mecanismo automático', 'Edición limitada']

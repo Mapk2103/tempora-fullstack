@@ -1,9 +1,14 @@
 import { useQuery } from '@tanstack/react-query';
+import { Link } from 'react-router-dom';
 import { productsAPI } from '../services/api';
+import {
+  handleProductImageError,
+  resolveProductImage
+} from '../utils/productImages';
 import '../components/css/products.css';
 
 const Products = () => {
-  const { data, isLoading, error } = useQuery({
+  const { data, isLoading, error, refetch } = useQuery({
     queryKey: ['products'],
     queryFn: async () => {
       const response = await productsAPI.getAll();
@@ -11,76 +16,110 @@ const Products = () => {
     },
     staleTime: 0,
     refetchOnMount: true,
-    refetchOnWindowFocus: true,
+    refetchOnWindowFocus: true
   });
 
   const products = data || [];
 
   if (isLoading) {
     return (
-      <div className="products-page">
-        {/* Skeleton loaders para 3 productos */}
+      <main className="products-page">
         {[1, 2, 3].map((item) => (
           <div key={item} className="skeleton-container">
             <div className="skeleton-content">
-              <div className="skeleton-title"></div>
-              <div className="skeleton-text"></div>
-              <div className="skeleton-text"></div>
-              <div className="skeleton-text"></div>
-              <div className="skeleton-price"></div>
-              <div className="skeleton-button"></div>
+              <div className="skeleton-title" />
+              <div className="skeleton-text" />
+              <div className="skeleton-text" />
+              <div className="skeleton-text" />
+              <div className="skeleton-price" />
+              <div className="skeleton-button" />
             </div>
           </div>
         ))}
-      </div>
+      </main>
     );
   }
 
   if (error) {
     return (
-      <div className="products-page">
-        <div className="error-message">Error al cargar productos</div>
-      </div>
+      <main className="page-state">
+        <span className="eyebrow">Colección Témpora</span>
+        <h1>No pudimos cargar el catálogo</h1>
+        <p>Revisá tu conexión e intentá nuevamente.</p>
+        <button type="button" onClick={() => refetch()}>Reintentar</button>
+      </main>
     );
   }
 
   return (
-    <div className="products-page">
+    <main className="products-page">
+      <header className="products-header">
+        <span className="eyebrow">Colección Témpora</span>
+        <h1>Relojes con presencia propia</h1>
+        <p>
+          Una selección de piezas contemporáneas construidas para trascender
+          temporadas y tendencias.
+        </p>
+      </header>
+
       {products.length === 0 ? (
         <div className="no-products">
           <h2>No hay productos disponibles</h2>
-          <p>Vuelve pronto para ver nuestros increíbles relojes</p>
+          <p>Volvé pronto para descubrir las próximas piezas de la colección.</p>
         </div>
       ) : (
         products.map((product, index) => (
-          <section key={product._id} className={`reloj-section${index > 0 ? index + 1 : ''}`}>
-            <div className="reloj-contenido">
-              <div className="texto">
+          <section
+            key={product._id}
+            className={`product-showcase ${index % 2 ? 'product-showcase-reverse' : ''}`}
+            style={{ '--product-image': `url("${resolveProductImage(product.image)}")` }}
+          >
+            <div className="product-mobile-image">
+              <img
+                src={resolveProductImage(product.image)}
+                onError={handleProductImageError}
+                alt={product.name}
+                loading="lazy"
+              />
+            </div>
+
+            <div className="product-showcase-inner">
+              <div className="product-copy">
+                <span className="product-index">
+                  {String(index + 1).padStart(2, '0')} / {String(products.length).padStart(2, '0')}
+                </span>
                 <h2>{product.name}</h2>
                 <p>{product.description}</p>
-                <br />
+
                 <div className="product-info">
-                  <span className="price">${product.price.toFixed(2)} <span className="currency">USD</span></span>
+                  <span className="price">
+                    ${product.price.toLocaleString('en-US')}
+                    <span className="currency">USD</span>
+                  </span>
                   {product.stock > 0 ? (
-                    <span className="stock available">En Stock ({product.stock})</span>
+                    <span className="stock available">En stock ({product.stock})</span>
                   ) : (
                     <span className="stock unavailable">Agotado</span>
                   )}
                 </div>
-                {product.features && product.features.length > 0 && (
+
+                {product.features?.length > 0 && (
                   <ul className="product-features">
-                    {product.features.map((feature, idx) => (
-                      <li key={idx}>{feature}</li>
+                    {product.features.map((feature) => (
+                      <li key={feature}>{feature}</li>
                     ))}
                   </ul>
                 )}
-                <button className="view-details">Ver Detalles</button>
+
+                <Link to={`/productos/${product._id}`} className="view-details">
+                  Ver detalles
+                </Link>
               </div>
             </div>
           </section>
         ))
       )}
-    </div>
+    </main>
   );
 };
 

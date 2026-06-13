@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useUser } from '../contexts/UserContexts';
 import logoImg from '../../assets/img/logo.png';
@@ -7,8 +7,13 @@ const Navbar = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { user, logout } = useUser();
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const isActive = (path) => location.pathname === path;
+
+  useEffect(() => {
+    setMenuOpen(false);
+  }, [location.pathname]);
 
   const handleLogout = () => {
     logout();
@@ -18,33 +23,39 @@ const Navbar = () => {
   return (
     <nav className="navbar">
       <div className="container">
-        <Link to="/" className="logo">
+        <Link to="/" className="logo" aria-label="Témpora, inicio">
           <img src={logoImg} alt="Logo de Témpora" />
         </Link>
 
-        <ul className="nav-links">
-          <li>
-            <Link
-              to="/"
-              className={isActive('/') ? 'active' : ''}
-            >
-              Inicio
-            </Link>
-          </li>
+        <button
+          type="button"
+          className={`menu-toggle ${menuOpen ? 'open' : ''}`}
+          aria-label={menuOpen ? 'Cerrar menú' : 'Abrir menú'}
+          aria-expanded={menuOpen}
+          aria-controls="primary-navigation"
+          onClick={() => setMenuOpen((open) => !open)}
+        >
+          <span />
+          <span />
+          <span />
+        </button>
+
+        <ul
+          id="primary-navigation"
+          className={`nav-links ${menuOpen ? 'nav-links-open' : ''}`}
+        >
+          <li><Link to="/" className={isActive('/') ? 'active' : ''}>Inicio</Link></li>
           <li>
             <Link
               to="/productos"
-              className={isActive('/productos') ? 'active' : ''}
+              className={location.pathname.startsWith('/productos') ? 'active' : ''}
             >
               Productos
             </Link>
           </li>
           <li>
-            <Link
-              to="/vender-oro"
-              className={isActive('/vender-oro') ? 'active' : ''}
-            >
-              Vender Oro
+            <Link to="/vender-oro" className={isActive('/vender-oro') ? 'active' : ''}>
+              Vender oro
             </Link>
           </li>
 
@@ -54,30 +65,20 @@ const Navbar = () => {
                 to="/mis-cotizaciones"
                 className={isActive('/mis-cotizaciones') ? 'active' : ''}
               >
-                Mis Cotizaciones
+                Mis cotizaciones
               </Link>
             </li>
           )}
 
           {user.isLoggedIn && user.role === 'admin' && (
-            <li>
-              <Link
-                to="/admin"
-                className={isActive('/admin') ? 'active' : ''}
-              >
-                Admin
-              </Link>
-            </li>
+            <li><Link to="/admin" className={isActive('/admin') ? 'active' : ''}>Admin</Link></li>
           )}
 
           {!user.isLoggedIn ? (
             <>
               <li>
-                <Link
-                  to="/login"
-                  className={isActive('/login') ? 'active' : ''}
-                >
-                  Iniciar Sesión
+                <Link to="/login" className={isActive('/login') ? 'active' : ''}>
+                  Iniciar sesión
                 </Link>
               </li>
               <li>
@@ -91,8 +92,8 @@ const Navbar = () => {
             </>
           ) : (
             <li>
-              <button onClick={handleLogout} className="btn-logout">
-                Cerrar Sesión ({user.name})
+              <button type="button" onClick={handleLogout} className="btn-logout">
+                Cerrar sesión
               </button>
             </li>
           )}

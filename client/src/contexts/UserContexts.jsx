@@ -1,5 +1,12 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
-import { authAPI } from '../services/api';
+import React, {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState
+} from 'react';
+import { authAPI, marketAPI } from '../services/api';
 
 const UserContext = createContext();
 
@@ -21,29 +28,53 @@ export const UserProvider = ({ children }) => {
   });
 
   const [goldPrice, setGoldPrice] = useState(null);
+  const [goldLoading, setGoldLoading] = useState(true);
+  const [goldUpdatedAt, setGoldUpdatedAt] = useState(null);
+  const [goldCached, setGoldCached] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const goldRequestRef = useRef(null);
 
-  const fetchGoldPrice = async () => {
-    try {
-      setError(null);
-      const response = await fetch('https://gold-api.com/');
-      if (response.ok) {
-        const html = await response.text();
-        const priceMatch = html.match(/\$(\d+(?:\.\d+)?)/);
-        if (priceMatch) {
-          setGoldPrice(parseFloat(priceMatch[1]));
-        } else {
-          setGoldPrice(3389.30);
-        }
-      } else {
-        setGoldPrice(3389.30);
-      }
-    } catch (error) {
-      setGoldPrice(3389.30);
-      setError('No se pudo obtener el precio en tiempo real');
+  const fetchGoldPrice = useCallback(async ({ showLoading = false } = {}) => {
+    if (goldRequestRef.current) {
+      return goldRequestRef.current;
     }
-  };
+
+    if (showLoading) {
+      setGoldLoading(true);
+    }
+
+    const request = (async () => {
+      try {
+        setError(null);
+        const response = await marketAPI.getGoldPrice();
+        const gold = response.data.gold;
+
+        setGoldPrice(gold.price);
+        setGoldUpdatedAt(gold.updatedAt);
+        setGoldCached(Boolean(gold.cached));
+
+        if (gold.isFallback) {
+          setError('Se está mostrando un precio de referencia temporal');
+        }
+
+        return gold;
+      } catch {
+        setError('No se pudo actualizar el precio del oro');
+        return null;
+      } finally {
+        setGoldLoading(false);
+      }
+    })();
+
+    goldRequestRef.current = request;
+
+    try {
+      return await request;
+    } finally {
+      goldRequestRef.current = null;
+    }
+  }, []);
 
   const checkAuth = async () => {
     const token = localStorage.getItem('token');
@@ -73,9 +104,6 @@ export const UserProvider = ({ children }) => {
 
   useEffect(() => {
     checkAuth();
-    fetchGoldPrice();
-    const interval = setInterval(fetchGoldPrice, 30000);
-    return () => clearInterval(interval);
   }, []);
 
   const register = async (userData) => {
@@ -120,6 +148,9 @@ export const UserProvider = ({ children }) => {
   const value = {
     user,
     goldPrice,
+    goldLoading,
+    goldUpdatedAt,
+    goldCached,
     loading,
     error,
     register,

@@ -1,4 +1,7 @@
 const Product = require('../models/Product');
+const mongoose = require('mongoose');
+
+const isValidProductId = (id) => mongoose.isValidObjectId(id);
 
 exports.getAllProducts = async (req, res) => {
   try {
@@ -25,7 +28,17 @@ exports.getAllProducts = async (req, res) => {
 
 exports.getProduct = async (req, res) => {
   try {
-    const product = await Product.findById(req.params.id);
+    if (!isValidProductId(req.params.id)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Identificador de producto inválido'
+      });
+    }
+
+    const product = await Product.findOne({
+      _id: req.params.id,
+      isActive: true
+    });
 
     if (!product) {
       return res.status(404).json({
@@ -84,6 +97,13 @@ exports.createProduct = async (req, res) => {
 
 exports.updateProduct = async (req, res) => {
   try {
+    if (!isValidProductId(req.params.id)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Identificador de producto inválido'
+      });
+    }
+
     const product = await Product.findByIdAndUpdate(
       req.params.id,
       req.body,
@@ -116,6 +136,13 @@ exports.updateProduct = async (req, res) => {
 
 exports.deleteProduct = async (req, res) => {
   try {
+    if (!isValidProductId(req.params.id)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Identificador de producto inválido'
+      });
+    }
+
     const product = await Product.findByIdAndUpdate(
       req.params.id,
       { isActive: false },

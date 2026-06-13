@@ -39,7 +39,11 @@ const Register = () => {
     setLoading(true);
 
     try {
-      const { confirmPassword, ...registerData } = formData;
+      const registerData = {
+        name: formData.name,
+        email: formData.email,
+        password: formData.password
+      };
       await register(registerData);
       navigate('/');
     } catch (err) {

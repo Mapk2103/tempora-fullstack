@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const {
+  estimateQuotation,
   createQuotation,
   getMyQuotations,
   getAllQuotations,
@@ -10,6 +11,7 @@ const {
 } = require('../controllers/quotationController');
 const { protect, restrictTo } = require('../middleware/auth');
 
+router.post('/estimate', estimateQuotation);
 router.post('/', protect, createQuotation);
 router.get('/my-quotations', protect, getMyQuotations);
 router.get('/', protect, restrictTo('admin'), getAllQuotations);

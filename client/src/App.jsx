@@ -2,13 +2,15 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { UserProvider } from './contexts/UserContexts';
 import Navbar from './components/Navbar';
-import Hero from './components/Hero';
+import Home from './pages/Home';
 import Products from './pages/Products';
+import ProductDetail from './pages/ProductDetail';
 import SellJewelry from './pages/SellJewelry';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Admin from './pages/Admin';
 import MyQuotations from './pages/MyQuotations';
+import NotFound from './pages/NotFound';
 import ProtectedRoute from './components/ProtectedRoute';
 import Footer from './components/Footer';
 
@@ -21,7 +23,7 @@ function App() {
           <Routes>
             <Route path="/" element={
               <>
-                <Hero />
+                <Home />
                 <Footer />
               </>
             } />
@@ -29,6 +31,13 @@ function App() {
             <Route path="/productos" element={
               <>
                 <Products />
+                <Footer />
+              </>
+            } />
+
+            <Route path="/productos/:id" element={
+              <>
+                <ProductDetail />
                 <Footer />
               </>
             } />
@@ -70,6 +79,13 @@ function App() {
                   <Footer />
                 </>
               </ProtectedRoute>
+            } />
+
+            <Route path="*" element={
+              <>
+                <NotFound />
+                <Footer />
+              </>
             } />
           </Routes>
         </div>

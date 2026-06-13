@@ -3,7 +3,9 @@
 
 @import './components/css/navbar.css';
 @import './components/css/hero.css';
+@import './components/css/home.css';
 @import './components/css/products.css';
+@import './components/css/product-detail.css';
 @import './components/css/sell-jewelry.css';
 @import './components/css/footer.css';
 

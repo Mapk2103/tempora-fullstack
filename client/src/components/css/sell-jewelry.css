@@ -29,7 +29,7 @@
 .vender-oro-section {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 20px;
+  padding: 64px 20px 90px;
 }
 
 .section-header {
@@ -50,7 +50,7 @@
   font-family: var(--font-alt);
 }
 
-/* Precio del oro en tiempo real */
+/* Precio del oro actualizado periodicamente */
 .gold-price-info {
   margin-bottom: 40px;
 }
@@ -63,22 +63,26 @@
   text-align: center;
   box-shadow: 0 4px 15px rgba(214, 158, 46, 0.3);
   border: 2px solid var(--color-gold);
+  overflow: hidden;
 }
 
 .price-container {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px 12px;
   margin-bottom: 15px;
 }
 
 .price-label {
   font-size: 1.2rem;
-  margin-right: 15px;
   font-family: var(--font-alt);
 }
 
 .price-value {
   font-size: 2.5rem;
   font-weight: bold;
-  margin-right: 10px;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
   font-family: var(--font-main);
 }
@@ -387,7 +391,7 @@
   
   .sell-form-container {
     padding: 20px;
-    margin: 0 20px;
+    margin: 0;
   }
   
   .section-header h2 {
@@ -434,5 +438,22 @@
   
   .gold-price-display p {
     font-size: 1rem;
+  }
+
+  .vender-oro-section {
+    padding: 44px 16px 64px;
+  }
+
+  .gold-price-display {
+    padding: 26px 18px;
+  }
+
+  .price-label {
+    width: 100%;
+    font-size: 1rem;
+  }
+
+  .last-updated {
+    overflow-wrap: anywhere;
   }
 }

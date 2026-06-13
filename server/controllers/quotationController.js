@@ -1,29 +1,87 @@
 const Quotation = require('../models/Quotation');
+const { getGoldQuote } = require('../services/marketService');
+const {
+  calculateEstimatedValue,
+  validateQuotationInput
+} = require('../services/quotationService');
+
+exports.estimateQuotation = async (req, res, next) => {
+  try {
+    const validation = validateQuotationInput(req.body);
+
+    if (validation.error) {
+      return res.status(400).json({
+        success: false,
+        message: validation.error
+      });
+    }
+
+    const { weight, purity, type } = validation.value;
+    const goldQuote = await getGoldQuote();
+    const estimatedValue = calculateEstimatedValue({
+      weight,
+      purity,
+      goldPrice: goldQuote.price
+    });
+
+    res.status(200).json({
+      success: true,
+      estimate: {
+        weight,
+        purity,
+        type,
+        estimatedValue
+      },
+      market: {
+        price: goldQuote.price,
+        source: goldQuote.source,
+        isFallback: goldQuote.isFallback,
+        cached: goldQuote.cached,
+        updatedAt: goldQuote.updatedAt
+      }
+    });
+  } catch (error) {
+    next(error);
+  }
+};
 
 exports.createQuotation = async (req, res) => {
   try {
-    const { weight, purity, type, goldPrice, estimatedValue } = req.body;
+    const validation = validateQuotationInput(req.body);
 
-    if (!weight || !purity || !type || !goldPrice || !estimatedValue) {
+    if (validation.error) {
       return res.status(400).json({
         success: false,
-        message: 'Por favor proporcione todos los campos obligatorios'
+        message: validation.error
       });
     }
+
+    const { weight, purity, type } = validation.value;
+    const goldQuote = await getGoldQuote();
+    const estimatedValue = calculateEstimatedValue({
+      weight,
+      purity,
+      goldPrice: goldQuote.price
+    });
 
     const quotation = await Quotation.create({
       user: req.user.id,
       weight,
       purity,
       type,
-      goldPrice,
+      goldPrice: goldQuote.price,
       estimatedValue
     });
 
     res.status(201).json({
       success: true,
       message: 'Cotización creada exitosamente',
-      quotation
+      quotation,
+      market: {
+        source: goldQuote.source,
+        isFallback: goldQuote.isFallback,
+        updatedAt: goldQuote.updatedAt
+      }
     });
   } catch (error) {
     res.status(500).json({

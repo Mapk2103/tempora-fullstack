@@ -1,38 +1,91 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useUser } from '../contexts/UserContexts';
 import { quotationsAPI } from '../services/api';
 
 const SellJewelry = () => {
   const navigate = useNavigate();
-  const { goldPrice, loading, error, user } = useUser();
+  const {
+    goldPrice,
+    goldLoading,
+    goldUpdatedAt,
+    goldCached,
+    error,
+    user,
+    fetchGoldPrice
+  } = useUser();
   const [formData, setFormData] = useState({
     weight: '',
     purity: '18k',
     type: 'jewelry'
   });
   const [estimatedValue, setEstimatedValue] = useState(null);
+  const [estimating, setEstimating] = useState(false);
   const [saving, setSaving] = useState(false);
   const [saveError, setSaveError] = useState('');
   const [saveSuccess, setSaveSuccess] = useState('');
 
-  const calculateValue = () => {
-    if (!goldPrice || !formData.weight) return null;
+  useEffect(() => {
+    let intervalId = null;
 
-    const weightInGrams = parseFloat(formData.weight);
-    const weightInOunces = weightInGrams / 31.1035;
-
-    const purityMultiplier = {
-      '24k': 1.0,
-      '18k': 0.75,
-      '14k': 0.585,
-      '10k': 0.417
+    const stopPolling = () => {
+      if (intervalId !== null) {
+        window.clearInterval(intervalId);
+        intervalId = null;
+      }
     };
 
-    const multiplier = purityMultiplier[formData.purity] || 0.75;
-    const calculatedValue = weightInOunces * goldPrice * multiplier * 0.85;
+    const startPolling = (fetchImmediately = false) => {
+      stopPolling();
 
-    return calculatedValue;
+      if (document.visibilityState === 'hidden') {
+        return;
+      }
+
+      if (fetchImmediately) {
+        fetchGoldPrice({ showLoading: true });
+      }
+
+      intervalId = window.setInterval(() => {
+        if (document.visibilityState === 'visible') {
+          fetchGoldPrice();
+        }
+      }, 30000);
+    };
+
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'hidden') {
+        stopPolling();
+        return;
+      }
+
+      startPolling(true);
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    startPolling(true);
+
+    return () => {
+      stopPolling();
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
+  }, [fetchGoldPrice]);
+
+  const formatGoldUpdatedAt = () => {
+    if (!goldUpdatedAt) {
+      return null;
+    }
+
+    const updatedAt = new Date(goldUpdatedAt);
+
+    if (Number.isNaN(updatedAt.getTime())) {
+      return null;
+    }
+
+    return new Intl.DateTimeFormat('es-UY', {
+      dateStyle: 'short',
+      timeStyle: 'medium'
+    }).format(updatedAt);
   };
 
   const handleInputChange = (e) => {
@@ -46,10 +99,28 @@ const SellJewelry = () => {
     setSaveError('');
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const value = calculateValue();
-    setEstimatedValue(value);
+    setEstimating(true);
+    setSaveError('');
+    setSaveSuccess('');
+
+    try {
+      const response = await quotationsAPI.estimate({
+        weight: parseFloat(formData.weight),
+        purity: formData.purity,
+        type: formData.type
+      });
+
+      setEstimatedValue(response.data.estimate.estimatedValue);
+    } catch (err) {
+      setEstimatedValue(null);
+      setSaveError(
+        err.response?.data?.message || 'No se pudo calcular la cotización'
+      );
+    } finally {
+      setEstimating(false);
+    }
   };
 
   const handleSaveQuotation = async () => {
@@ -64,14 +135,13 @@ const SellJewelry = () => {
     setSaveSuccess('');
 
     try {
-      await quotationsAPI.create({
+      const response = await quotationsAPI.create({
         weight: parseFloat(formData.weight),
         purity: formData.purity,
-        type: formData.type,
-        goldPrice: goldPrice,
-        estimatedValue: estimatedValue
+        type: formData.type
       });
 
+      setEstimatedValue(response.data.quotation.estimatedValue);
       setSaveSuccess('Cotización guardada exitosamente. Nos contactaremos pronto.');
       setTimeout(() => {
         setFormData({ weight: '', purity: '18k', type: 'jewelry' });
@@ -85,6 +155,8 @@ const SellJewelry = () => {
     }
   };
 
+  const formattedGoldUpdatedAt = formatGoldUpdatedAt();
+
   return (
     <div className="sell-jewelry-page">
       <div className="vender-oro-section">
@@ -97,26 +169,30 @@ const SellJewelry = () => {
         {/*precio del oro */}
         <div className="gold-price-info">
           <div className="gold-price-display">
-            {loading ? (
+            {goldLoading && !goldPrice ? (
               <div className="price-container">
                 <span className="price-label">Cargando precio del oro...</span>
-              </div>
-            ) : error ? (
-              <div className="price-container">
-                <span className="price-label">Precio del oro:</span>
-                <span className="price-value">$3389.30</span>
-                <span className="price-currency">USD</span>
               </div>
             ) : (
               <>
                 <div className="price-container">
                   <span className="price-label">Precio actual del oro:</span>
-                  <span className="price-value">${goldPrice?.toFixed(2)}</span>
-                  <span className="price-currency">USD/onza</span>
+                  <span className="price-value">
+                    {goldPrice ? `$${goldPrice.toFixed(2)}` : 'No disponible'}
+                  </span>
+                  {goldPrice && <span className="price-currency">USD/onza</span>}
                 </div>
                 <div className="last-updated">
-                  Actualizado en tiempo real
+                  {formattedGoldUpdatedAt
+                    ? `Última actualización: ${formattedGoldUpdatedAt}`
+                    : 'Precio actualizado automáticamente cada 30 segundos'}
                 </div>
+                {goldCached && (
+                  <div className="last-updated">
+                    Datos de mercado actualizados periódicamente
+                  </div>
+                )}
+                {error && <div className="last-updated">{error}</div>}
               </>
             )}
           </div>
@@ -172,8 +248,8 @@ const SellJewelry = () => {
               </select>
             </div>
             
-            <button type="submit" className="submit-btn">
-              Calcular Valor Estimado
+            <button type="submit" className="submit-btn" disabled={estimating}>
+              {estimating ? 'Calculando...' : 'Calcular Valor Estimado'}
             </button>
           </form>
           

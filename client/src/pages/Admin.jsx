@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { productsAPI } from '../services/api';
+import {
+  handleProductImageError,
+  resolveProductImage
+} from '../utils/productImages';
 import '../components/css/admin.css';
 
 const Admin = () => {
@@ -261,7 +265,12 @@ const Admin = () => {
             {products.map((product) => (
               <tr key={product._id}>
                 <td>
-                  <img src={product.image} alt={product.name} className="product-thumbnail" />
+                  <img
+                    src={resolveProductImage(product.image)}
+                    onError={handleProductImageError}
+                    alt={product.name}
+                    className="product-thumbnail"
+                  />
                 </td>
                 <td>{product.name}</td>
                 <td>${product.price.toFixed(2)}</td>
