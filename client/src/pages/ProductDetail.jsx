@@ -5,14 +5,12 @@ import {
   handleProductImageError,
   resolveProductImage
 } from '../utils/productImages';
+import {
+  getProductCategory,
+  getProductDescription,
+  getProductFeature
+} from '../utils/productContent';
 import '../components/css/product-detail.css';
-
-const categoryNames = {
-  'reloj-oro': 'Reloj de oro',
-  'reloj-acero': 'Reloj de acero',
-  'reloj-clasico': 'Reloj clásico',
-  'reloj-deportivo': 'Reloj deportivo'
-};
 
 const ProductDetail = () => {
   const { id } = useParams();
@@ -29,8 +27,8 @@ const ProductDetail = () => {
     return (
       <main className="page-state">
         <div className="state-spinner" aria-hidden="true" />
-        <h1>Cargando pieza</h1>
-        <p>Estamos preparando todos los detalles.</p>
+        <h1>Loading this piece</h1>
+        <p>We are preparing all the details.</p>
       </main>
     );
   }
@@ -38,12 +36,12 @@ const ProductDetail = () => {
   if (error || !product) {
     return (
       <main className="page-state">
-        <span className="eyebrow">Colección Témpora</span>
-        <h1>La pieza no está disponible</h1>
-        <p>Es posible que el producto haya cambiado o ya no forme parte del catálogo.</p>
+        <span className="eyebrow">The Témpora Collection</span>
+        <h1>This piece is unavailable</h1>
+        <p>The product may have changed or may no longer be part of the collection.</p>
         <div className="state-actions">
-          <button type="button" onClick={() => refetch()}>Reintentar</button>
-          <Link to="/productos" className="primary-link">Volver al catálogo</Link>
+          <button type="button" onClick={() => refetch()}>Try Again</button>
+          <Link to="/productos" className="primary-link">Back to Collection</Link>
         </div>
       </main>
     );
@@ -51,7 +49,7 @@ const ProductDetail = () => {
 
   return (
     <main className="product-detail-page">
-      <Link to="/productos" className="back-link">← Volver al catálogo</Link>
+      <Link to="/productos" className="back-link">← Back to Collection</Link>
 
       <article className="product-detail-card">
         <div className="product-detail-image">
@@ -64,35 +62,35 @@ const ProductDetail = () => {
 
         <div className="product-detail-content">
           <span className="eyebrow">
-            {categoryNames[product.category] || product.category}
+            {getProductCategory(product.category)}
           </span>
           <h1>{product.name}</h1>
-          <p className="product-detail-description">{product.description}</p>
+          <p className="product-detail-description">{getProductDescription(product)}</p>
 
           <div className="product-detail-meta">
             <div>
-              <span>Precio</span>
+              <span>Price</span>
               <strong>${product.price.toLocaleString('en-US')} USD</strong>
             </div>
             <div>
-              <span>Disponibilidad</span>
-              <strong>{product.stock > 0 ? `${product.stock} unidades` : 'Agotado'}</strong>
+              <span>Availability</span>
+              <strong>{product.stock > 0 ? `${product.stock} available` : 'Sold Out'}</strong>
             </div>
           </div>
 
           {product.features?.length > 0 && (
             <div className="product-detail-features">
-              <h2>Características</h2>
+              <h2>Features</h2>
               <ul>
                 {product.features.map((feature) => (
-                  <li key={feature}>{feature}</li>
+                  <li key={feature}>{getProductFeature(feature)}</li>
                 ))}
               </ul>
             </div>
           )}
 
           <Link to="/productos" className="primary-link">
-            Explorar más piezas
+            Explore More Pieces
           </Link>
         </div>
       </article>

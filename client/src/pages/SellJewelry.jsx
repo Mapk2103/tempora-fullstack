@@ -82,7 +82,7 @@ const SellJewelry = () => {
       return null;
     }
 
-    return new Intl.DateTimeFormat('es-UY', {
+    return new Intl.DateTimeFormat('en-US', {
       dateStyle: 'short',
       timeStyle: 'medium'
     }).format(updatedAt);
@@ -113,11 +113,9 @@ const SellJewelry = () => {
       });
 
       setEstimatedValue(response.data.estimate.estimatedValue);
-    } catch (err) {
+    } catch {
       setEstimatedValue(null);
-      setSaveError(
-        err.response?.data?.message || 'No se pudo calcular la cotización'
-      );
+      setSaveError('We could not calculate your valuation. Please try again.');
     } finally {
       setEstimating(false);
     }
@@ -125,7 +123,7 @@ const SellJewelry = () => {
 
   const handleSaveQuotation = async () => {
     if (!user.isLoggedIn) {
-      setSaveError('Debes iniciar sesión para guardar una cotización');
+      setSaveError('Please log in to save a valuation');
       setTimeout(() => navigate('/login'), 2000);
       return;
     }
@@ -142,14 +140,14 @@ const SellJewelry = () => {
       });
 
       setEstimatedValue(response.data.quotation.estimatedValue);
-      setSaveSuccess('Cotización guardada exitosamente. Nos contactaremos pronto.');
+      setSaveSuccess('Your valuation was saved successfully. We will contact you soon.');
       setTimeout(() => {
         setFormData({ weight: '', purity: '18k', type: 'jewelry' });
         setEstimatedValue(null);
         setSaveSuccess('');
       }, 3000);
-    } catch (err) {
-      setSaveError(err.response?.data?.message || 'Error al guardar cotización');
+    } catch {
+      setSaveError('We could not save your valuation. Please try again.');
     } finally {
       setSaving(false);
     }
@@ -162,34 +160,34 @@ const SellJewelry = () => {
       <div className="vender-oro-section">
         {}
         <div className="section-header">
-          <h2>Vender tu Oro</h2>
-          <p>Obtén el mejor precio por tus joyas de oro. Evaluación profesional y pago inmediato.</p>
+          <h2>Sell Your Gold</h2>
+          <p>Get a professional valuation for your gold jewelry with immediate pricing.</p>
         </div>
 
-        {/*precio del oro */}
+        {/* Gold price */}
         <div className="gold-price-info">
           <div className="gold-price-display">
             {goldLoading && !goldPrice ? (
               <div className="price-container">
-                <span className="price-label">Cargando precio del oro...</span>
+                <span className="price-label">Loading gold price...</span>
               </div>
             ) : (
               <>
                 <div className="price-container">
-                  <span className="price-label">Precio actual del oro:</span>
+                  <span className="price-label">Current gold price:</span>
                   <span className="price-value">
-                    {goldPrice ? `$${goldPrice.toFixed(2)}` : 'No disponible'}
+                    {goldPrice ? `$${goldPrice.toFixed(2)}` : 'Unavailable'}
                   </span>
-                  {goldPrice && <span className="price-currency">USD/onza</span>}
+                  {goldPrice && <span className="price-currency">USD/ounce</span>}
                 </div>
                 <div className="last-updated">
                   {formattedGoldUpdatedAt
-                    ? `Última actualización: ${formattedGoldUpdatedAt}`
-                    : 'Precio actualizado automáticamente cada 30 segundos'}
+                    ? `Last updated: ${formattedGoldUpdatedAt}`
+                    : 'Price updates automatically every 30 seconds'}
                 </div>
                 {goldCached && (
                   <div className="last-updated">
-                    Datos de mercado actualizados periódicamente
+                    Market data is updated periodically
                   </div>
                 )}
                 {error && <div className="last-updated">{error}</div>}
@@ -198,13 +196,13 @@ const SellJewelry = () => {
           </div>
         </div>
 
-        {/* Formulario de venta */}
+        {/* Valuation form */}
         <div className="sell-form-container">
-          <h3>Calculadora de Valor</h3>
+          <h3>Value Calculator</h3>
           <form onSubmit={handleSubmit} className="sell-form">
             <div className="form-row">
               <div className="form-group">
-                <label htmlFor="weight">Peso (en gramos)</label>
+                <label htmlFor="weight">Weight (grams)</label>
                 <input
                   type="number"
                   id="weight"
@@ -214,42 +212,42 @@ const SellJewelry = () => {
                   step="0.1"
                   min="0.1"
                   required
-                  placeholder="Ej: 10.5"
+                  placeholder="E.g. 10.5"
                 />
               </div>
               
               <div className="form-group">
-                <label htmlFor="purity">Pureza del Oro</label>
+                <label htmlFor="purity">Gold Purity</label>
                 <select
                   id="purity"
                   name="purity"
                   value={formData.purity}
                   onChange={handleInputChange}
                 >
-                  <option value="24k">24K - Oro Puro</option>
-                  <option value="18k">18K - Oro 75%</option>
-                  <option value="14k">14K - Oro 58.5%</option>
-                  <option value="10k">10K - Oro 41.7%</option>
+                  <option value="24k">24K - Pure Gold</option>
+                  <option value="18k">18K - 75% Gold</option>
+                  <option value="14k">14K - 58.5% Gold</option>
+                  <option value="10k">10K - 41.7% Gold</option>
                 </select>
               </div>
             </div>
             
             <div className="form-group">
-              <label htmlFor="type">Tipo de Artículo</label>
+              <label htmlFor="type">Item Type</label>
               <select
                 id="type"
                 name="type"
                 value={formData.type}
                 onChange={handleInputChange}
               >
-                <option value="jewelry">Joyería</option>
-                <option value="coins">Monedas</option>
-                <option value="bars">Lingotes</option>
+                <option value="jewelry">Jewelry</option>
+                <option value="coins">Coins</option>
+                <option value="bars">Gold Bars</option>
               </select>
             </div>
             
             <button type="submit" className="submit-btn" disabled={estimating}>
-              {estimating ? 'Calculando...' : 'Calcular Valor Estimado'}
+              {estimating ? 'Calculating...' : 'Calculate Estimated Value'}
             </button>
           </form>
           
@@ -258,17 +256,17 @@ const SellJewelry = () => {
 
           {estimatedValue && (
             <div className="estimated-value">
-              <h4>Valor Estimado</h4>
+              <h4>Estimated Value</h4>
               <div className="value-display">
                 ${estimatedValue.toFixed(2)} USD
               </div>
-              <small>*Este es un valor estimado. El precio final se determina tras una evaluación profesional.</small>
+              <small>*This is an estimate. The final price is determined after a professional evaluation.</small>
               <button
                 onClick={handleSaveQuotation}
                 className="save-quotation-btn"
                 disabled={saving}
               >
-                {saving ? 'Guardando...' : 'Guardar Cotización'}
+                {saving ? 'Saving...' : 'Save Valuation'}
               </button>
             </div>
           )}

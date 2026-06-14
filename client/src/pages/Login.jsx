@@ -28,8 +28,8 @@ const Login = () => {
     try {
       await login(formData);
       navigate('/');
-    } catch (err) {
-      setError(err.response?.data?.message || 'Error al iniciar sesión');
+    } catch {
+      setError('Unable to log in. Please check your email and password.');
     } finally {
       setLoading(false);
     }
@@ -38,8 +38,8 @@ const Login = () => {
   return (
     <div className="auth-container">
       <div className="auth-card">
-        <h2>Iniciar Sesión</h2>
-        <p className="auth-subtitle">Bienvenido de nuevo a Témpora</p>
+        <h2>Log In</h2>
+        <p className="auth-subtitle">Welcome back to Témpora</p>
 
         {error && <div className="error-message">{error}</div>}
 
@@ -53,12 +53,12 @@ const Login = () => {
               value={formData.email}
               onChange={handleChange}
               required
-              placeholder="tu@email.com"
+              placeholder="you@email.com"
             />
           </div>
 
           <div className="form-group">
-            <label htmlFor="password">Contraseña</label>
+            <label htmlFor="password">Password</label>
             <input
               type="password"
               id="password"
@@ -71,12 +71,12 @@ const Login = () => {
           </div>
 
           <button type="submit" className="auth-button" disabled={loading}>
-            {loading ? 'Iniciando sesión...' : 'Iniciar Sesión'}
+            {loading ? 'Logging in...' : 'Log In'}
           </button>
         </form>
 
         <p className="auth-link">
-          ¿No tienes cuenta? <Link to="/registro">Regístrate aquí</Link>
+          New to Témpora? <Link to="/registro">Create an account</Link>
         </p>
       </div>
     </div>

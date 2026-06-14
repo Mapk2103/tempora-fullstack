@@ -5,6 +5,10 @@ import {
   handleProductImageError,
   resolveProductImage
 } from '../utils/productImages';
+import {
+  getProductDescription,
+  getProductFeature
+} from '../utils/productContent';
 import '../components/css/products.css';
 
 const Products = () => {
@@ -43,10 +47,10 @@ const Products = () => {
   if (error) {
     return (
       <main className="page-state">
-        <span className="eyebrow">Colección Témpora</span>
-        <h1>No pudimos cargar el catálogo</h1>
-        <p>Revisá tu conexión e intentá nuevamente.</p>
-        <button type="button" onClick={() => refetch()}>Reintentar</button>
+        <span className="eyebrow">The Témpora Collection</span>
+        <h1>We could not load the collection</h1>
+        <p>Check your connection and try again.</p>
+        <button type="button" onClick={() => refetch()}>Try Again</button>
       </main>
     );
   }
@@ -54,18 +58,18 @@ const Products = () => {
   return (
     <main className="products-page">
       <header className="products-header">
-        <span className="eyebrow">Colección Témpora</span>
-        <h1>Relojes con presencia propia</h1>
+        <span className="eyebrow">The Témpora Collection</span>
+        <h1>Watches with a presence of their own</h1>
         <p>
-          Una selección de piezas contemporáneas construidas para trascender
-          temporadas y tendencias.
+          A selection of contemporary pieces crafted to transcend seasons
+          and trends.
         </p>
       </header>
 
       {products.length === 0 ? (
         <div className="no-products">
-          <h2>No hay productos disponibles</h2>
-          <p>Volvé pronto para descubrir las próximas piezas de la colección.</p>
+          <h2>No products are currently available</h2>
+          <p>Visit again soon to discover the next additions to the collection.</p>
         </div>
       ) : (
         products.map((product, index) => (
@@ -89,7 +93,7 @@ const Products = () => {
                   {String(index + 1).padStart(2, '0')} / {String(products.length).padStart(2, '0')}
                 </span>
                 <h2>{product.name}</h2>
-                <p>{product.description}</p>
+                <p>{getProductDescription(product)}</p>
 
                 <div className="product-info">
                   <span className="price">
@@ -97,22 +101,22 @@ const Products = () => {
                     <span className="currency">USD</span>
                   </span>
                   {product.stock > 0 ? (
-                    <span className="stock available">En stock ({product.stock})</span>
+                    <span className="stock available">In Stock ({product.stock})</span>
                   ) : (
-                    <span className="stock unavailable">Agotado</span>
+                    <span className="stock unavailable">Sold Out</span>
                   )}
                 </div>
 
                 {product.features?.length > 0 && (
                   <ul className="product-features">
                     {product.features.map((feature) => (
-                      <li key={feature}>{feature}</li>
+                      <li key={feature}>{getProductFeature(feature)}</li>
                     ))}
                   </ul>
                 )}
 
                 <Link to={`/productos/${product._id}`} className="view-details">
-                  Ver detalles
+                  View Details
                 </Link>
               </div>
             </div>

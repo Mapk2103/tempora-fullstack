@@ -4,6 +4,7 @@ import {
   handleProductImageError,
   resolveProductImage
 } from '../utils/productImages';
+import { getProductCategory } from '../utils/productContent';
 import '../components/css/admin.css';
 
 const Admin = () => {
@@ -32,7 +33,7 @@ const Admin = () => {
       const response = await productsAPI.getAll();
       setProducts(response.data.products);
     } catch (err) {
-      setError('Error al cargar productos');
+      setError('Unable to load products');
     } finally {
       setLoading(false);
     }
@@ -74,16 +75,16 @@ const Admin = () => {
 
       if (editingProduct) {
         await productsAPI.update(editingProduct._id, productData);
-        setSuccess('Producto actualizado exitosamente');
+        setSuccess('Product updated successfully');
       } else {
         await productsAPI.create(productData);
-        setSuccess('Producto creado exitosamente');
+        setSuccess('Product created successfully');
       }
 
       fetchProducts();
       resetForm();
-    } catch (err) {
-      setError(err.response?.data?.message || 'Error al guardar producto');
+    } catch {
+      setError('Unable to save the product');
     }
   };
 
@@ -102,27 +103,27 @@ const Admin = () => {
   };
 
   const handleDelete = async (id) => {
-    if (window.confirm('¿Está seguro de eliminar este producto?')) {
+    if (window.confirm('Are you sure you want to delete this product?')) {
       try {
         await productsAPI.delete(id);
-        setSuccess('Producto eliminado exitosamente');
+        setSuccess('Product deleted successfully');
         fetchProducts();
       } catch (err) {
-        setError('Error al eliminar producto');
+        setError('Unable to delete the product');
       }
     }
   };
 
   if (loading) {
-    return <div className="loading">Cargando...</div>;
+    return <div className="loading">Loading...</div>;
   }
 
   return (
     <div className="admin-container">
       <div className="admin-header">
-        <h1>Panel de Administración</h1>
+        <h1>Administration Panel</h1>
         <button className="btn-primary" onClick={() => setShowForm(!showForm)}>
-          {showForm ? 'Cancelar' : 'Nuevo Producto'}
+          {showForm ? 'Cancel' : 'New Product'}
         </button>
       </div>
 
@@ -131,23 +132,23 @@ const Admin = () => {
 
       {showForm && (
         <div className="product-form-card">
-          <h2>{editingProduct ? 'Editar Producto' : 'Nuevo Producto'}</h2>
+          <h2>{editingProduct ? 'Edit Product' : 'New Product'}</h2>
           <form onSubmit={handleSubmit} className="product-form">
             <div className="form-row">
               <div className="form-group">
-                <label htmlFor="name">Nombre del Producto *</label>
+                <label htmlFor="name">Product Name *</label>
                 <input
                   type="text"
                   id="name"
                   name="name"
                   value={formData.name}
                   onChange={handleInputChange}
-                  placeholder="Ej: Reloj Omega Seamaster"
+                  placeholder="E.g. Omega Seamaster"
                   required
                 />
               </div>
               <div className="form-group">
-                <label htmlFor="price">Precio (USD) *</label>
+                <label htmlFor="price">Price (USD) *</label>
                 <input
                   type="number"
                   id="price"
@@ -155,20 +156,20 @@ const Admin = () => {
                   value={formData.price}
                   onChange={handleInputChange}
                   step="0.01"
-                  placeholder="Ej: 15000.00"
+                  placeholder="E.g. 15000.00"
                   required
                 />
               </div>
             </div>
 
             <div className="form-group">
-              <label htmlFor="description">Descripción del Producto *</label>
+              <label htmlFor="description">Product Description *</label>
               <textarea
                 id="description"
                 name="description"
                 value={formData.description}
                 onChange={handleInputChange}
-                placeholder="Describe las características principales del reloj..."
+                placeholder="Describe the watch's defining characteristics..."
                 required
                 rows="3"
               />
@@ -176,29 +177,29 @@ const Admin = () => {
 
             <div className="form-row">
               <div className="form-group">
-                <label htmlFor="image">URL de la Imagen *</label>
+                <label htmlFor="image">Image URL *</label>
                 <input
                   type="text"
                   id="image"
                   name="image"
                   value={formData.image}
                   onChange={handleInputChange}
-                  placeholder="Ej: /assets/img/reloj4.jpg"
+                  placeholder="E.g. /assets/img/watch4.jpg"
                   required
                 />
                 <small style={{ color: '#666', fontSize: '0.85rem', marginTop: '4px', display: 'block' }}>
-                  Usa rutas como: /assets/img/nombredelreloj.jpg
+                  Use paths such as: /assets/img/watch-name.jpg
                 </small>
               </div>
               <div className="form-group">
-                <label htmlFor="stock">Cantidad en Stock *</label>
+                <label htmlFor="stock">Stock Quantity *</label>
                 <input
                   type="number"
                   id="stock"
                   name="stock"
                   value={formData.stock}
                   onChange={handleInputChange}
-                  placeholder="Ej: 10"
+                  placeholder="E.g. 10"
                   min="0"
                   required
                 />
@@ -206,7 +207,7 @@ const Admin = () => {
             </div>
 
             <div className="form-group">
-              <label htmlFor="category">Categoría del Producto *</label>
+              <label htmlFor="category">Product Category *</label>
               <select
                 id="category"
                 name="category"
@@ -214,34 +215,34 @@ const Admin = () => {
                 onChange={handleInputChange}
                 required
               >
-                <option value="reloj-oro">Reloj de Oro</option>
-                <option value="reloj-acero">Reloj de Acero</option>
-                <option value="reloj-clasico">Reloj Clásico</option>
-                <option value="reloj-deportivo">Reloj Deportivo</option>
+                <option value="reloj-oro">Gold Watch</option>
+                <option value="reloj-acero">Steel Watch</option>
+                <option value="reloj-clasico">Classic Watch</option>
+                <option value="reloj-deportivo">Sport Watch</option>
               </select>
             </div>
 
             <div className="form-group">
-              <label htmlFor="features">Características del Producto (separadas por comas)</label>
+              <label htmlFor="features">Product Features (comma-separated)</label>
               <input
                 type="text"
                 id="features"
                 name="features"
                 value={formData.features}
                 onChange={handleInputChange}
-                placeholder="Ej: Resistente al agua, Cronógrafo, Oro 18K, Garantía 5 años"
+                placeholder="E.g. Water resistant, Chronograph, 18K gold, 5-year warranty"
               />
               <small style={{ color: '#666', fontSize: '0.85rem', marginTop: '4px', display: 'block' }}>
-                Separa cada característica con una coma (,)
+                Separate each feature with a comma (,)
               </small>
             </div>
 
             <div className="form-actions">
               <button type="submit" className="btn-primary">
-                {editingProduct ? 'Actualizar' : 'Crear'} Producto
+                {editingProduct ? 'Update' : 'Create'} Product
               </button>
               <button type="button" className="btn-secondary" onClick={resetForm}>
-                Cancelar
+                Cancel
               </button>
             </div>
           </form>
@@ -249,16 +250,16 @@ const Admin = () => {
       )}
 
       <div className="products-table">
-        <h2>Productos ({products.length})</h2>
+        <h2>Products ({products.length})</h2>
         <table>
           <thead>
             <tr>
-              <th>Imagen</th>
-              <th>Nombre</th>
-              <th>Precio</th>
-              <th>Categoría</th>
+              <th>Image</th>
+              <th>Name</th>
+              <th>Price</th>
+              <th>Category</th>
               <th>Stock</th>
-              <th>Acciones</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -274,14 +275,14 @@ const Admin = () => {
                 </td>
                 <td>{product.name}</td>
                 <td>${product.price.toFixed(2)}</td>
-                <td>{product.category}</td>
+                <td>{getProductCategory(product.category)}</td>
                 <td>{product.stock}</td>
                 <td>
                   <button className="btn-edit" onClick={() => handleEdit(product)}>
-                    Editar
+                    Edit
                   </button>
                   <button className="btn-delete" onClick={() => handleDelete(product._id)}>
-                    Eliminar
+                    Delete
                   </button>
                 </td>
               </tr>

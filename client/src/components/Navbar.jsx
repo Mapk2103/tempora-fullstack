@@ -23,14 +23,14 @@ const Navbar = () => {
   return (
     <nav className="navbar">
       <div className="container">
-        <Link to="/" className="logo" aria-label="Témpora, inicio">
-          <img src={logoImg} alt="Logo de Témpora" />
+        <Link to="/" className="logo" aria-label="Témpora, home">
+          <img src={logoImg} alt="Témpora logo" />
         </Link>
 
         <button
           type="button"
           className={`menu-toggle ${menuOpen ? 'open' : ''}`}
-          aria-label={menuOpen ? 'Cerrar menú' : 'Abrir menú'}
+          aria-label={menuOpen ? 'Close menu' : 'Open menu'}
           aria-expanded={menuOpen}
           aria-controls="primary-navigation"
           onClick={() => setMenuOpen((open) => !open)}
@@ -44,18 +44,18 @@ const Navbar = () => {
           id="primary-navigation"
           className={`nav-links ${menuOpen ? 'nav-links-open' : ''}`}
         >
-          <li><Link to="/" className={isActive('/') ? 'active' : ''}>Inicio</Link></li>
+          <li><Link to="/" className={isActive('/') ? 'active' : ''}>Home</Link></li>
           <li>
             <Link
               to="/productos"
               className={location.pathname.startsWith('/productos') ? 'active' : ''}
             >
-              Productos
+              Products
             </Link>
           </li>
           <li>
             <Link to="/vender-oro" className={isActive('/vender-oro') ? 'active' : ''}>
-              Vender oro
+              Sell Gold
             </Link>
           </li>
 
@@ -65,7 +65,7 @@ const Navbar = () => {
                 to="/mis-cotizaciones"
                 className={isActive('/mis-cotizaciones') ? 'active' : ''}
               >
-                Mis cotizaciones
+                My Valuations
               </Link>
             </li>
           )}
@@ -78,7 +78,7 @@ const Navbar = () => {
             <>
               <li>
                 <Link to="/login" className={isActive('/login') ? 'active' : ''}>
-                  Iniciar sesión
+                  Log In
                 </Link>
               </li>
               <li>
@@ -86,14 +86,14 @@ const Navbar = () => {
                   to="/registro"
                   className={`${isActive('/registro') ? 'active' : ''} btn-register`}
                 >
-                  Registrarse
+                  Sign Up
                 </Link>
               </li>
             </>
           ) : (
             <li>
               <button type="button" onClick={handleLogout} className="btn-logout">
-                Cerrar sesión
+                Log Out
               </button>
             </li>
           )}

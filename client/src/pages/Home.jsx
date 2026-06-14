@@ -6,6 +6,7 @@ import {
   handleProductImageError,
   resolveProductImage
 } from '../utils/productImages';
+import { getProductCategory } from '../utils/productContent';
 import '../components/css/home.css';
 
 const formatPrice = (price) => new Intl.NumberFormat('en-US', {
@@ -30,22 +31,22 @@ const Home = () => {
       <Hero />
 
       <section className="home-intro section-shell">
-        <span className="eyebrow">Alta relojería contemporánea</span>
-        <h2>Diseñados para permanecer</h2>
+        <span className="eyebrow">Contemporary Fine Watchmaking</span>
+        <h2>Designed to endure</h2>
         <p>
-          Témpora reúne materiales nobles, líneas precisas y una presencia
-          sobria en piezas creadas para acompañar generaciones.
+          Témpora brings together refined materials, precise lines and a
+          confident presence in watches created to accompany generations.
         </p>
       </section>
 
       <section className="featured-section section-shell" aria-labelledby="featured-title">
         <div className="section-heading">
           <div>
-            <span className="eyebrow">Selección Témpora</span>
-            <h2 id="featured-title">Piezas destacadas</h2>
+            <span className="eyebrow">The Témpora Selection</span>
+            <h2 id="featured-title">Featured Pieces</h2>
           </div>
           <Link to="/productos" className="text-link">
-            Ver colección completa
+            View Full Collection
           </Link>
         </div>
 
@@ -66,12 +67,12 @@ const Home = () => {
                 </Link>
                 <div className="featured-card-content">
                   <span className="featured-category">
-                    {product.category.replaceAll('-', ' ')}
+                    {getProductCategory(product.category)}
                   </span>
                   <h3>{product.name}</h3>
                   <div className="featured-card-footer">
                     <span>{formatPrice(product.price)}</span>
-                    <Link to={`/productos/${product._id}`}>Descubrir</Link>
+                    <Link to={`/productos/${product._id}`}>Discover</Link>
                   </div>
                 </div>
               </article>
@@ -83,33 +84,33 @@ const Home = () => {
         <div className="section-shell brand-values-grid">
           <article>
             <span>01</span>
-            <h3>Selección cuidada</h3>
-            <p>Una colección breve, coherente y centrada en piezas con carácter.</p>
+            <h3>Curated Selection</h3>
+            <p>A focused, cohesive collection built around watches with character.</p>
           </article>
           <article>
             <span>02</span>
-            <h3>Materiales nobles</h3>
-            <p>Oro, acero y acabados elegidos para conservar su presencia.</p>
+            <h3>Refined Materials</h3>
+            <p>Gold, steel and finishes chosen to retain their presence over time.</p>
           </article>
           <article>
             <span>03</span>
-            <h3>Atención personal</h3>
-            <p>Acompañamiento claro antes y después de cada consulta.</p>
+            <h3>Personal Service</h3>
+            <p>Clear, attentive guidance before and after every inquiry.</p>
           </article>
         </div>
       </section>
 
       <section className="home-cta section-shell">
         <div>
-          <span className="eyebrow">Tasación de metales preciosos</span>
-          <h2>Conocé el valor estimado de tu oro</h2>
+          <span className="eyebrow">Precious Metal Valuation</span>
+          <h2>Discover the estimated value of your gold</h2>
           <p>
-            Calculá una referencia basada en la cotización de mercado y guardá
-            tu solicitud de forma segura.
+            Get an estimate based on current market pricing and securely save
+            your valuation request.
           </p>
         </div>
         <Link to="/vender-oro" className="primary-link">
-          Cotizar ahora
+          Get a Valuation
         </Link>
       </section>
     </main>

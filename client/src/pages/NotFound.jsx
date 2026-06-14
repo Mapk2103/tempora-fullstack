@@ -3,9 +3,9 @@ import { Link } from 'react-router-dom';
 const NotFound = () => (
   <main className="page-state">
     <span className="eyebrow">Error 404</span>
-    <h1>Esta página no existe</h1>
-    <p>La dirección puede haber cambiado o el contenido ya no está disponible.</p>
-    <Link to="/" className="primary-link">Volver al inicio</Link>
+    <h1>This page does not exist</h1>
+    <p>The address may have changed or the content may no longer be available.</p>
+    <Link to="/" className="primary-link">Back to Home</Link>
   </main>
 );
 

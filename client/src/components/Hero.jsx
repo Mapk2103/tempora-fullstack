@@ -5,10 +5,10 @@ const Hero = () => (
   <section className="hero-section">
     <div className="hero-overlay">
       <div className="hero-content">
-        <span className="hero-eyebrow">Témpora · Alta relojería</span>
-        <h1>Elegancia atemporal</h1>
-        <p>Relojes de carácter, concebidos para trascender el tiempo.</p>
-        <Link to="/productos" className="hero-button">Ver catálogo</Link>
+        <span className="hero-eyebrow">Témpora · Fine Watchmaking</span>
+        <h1>Timeless elegance</h1>
+        <p>Distinctive watches designed to transcend time.</p>
+        <Link to="/productos" className="hero-button">View Collection</Link>
       </div>
     </div>
   </section>

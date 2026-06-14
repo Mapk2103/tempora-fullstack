@@ -13,7 +13,7 @@ const UserContext = createContext();
 export const useUser = () => {
   const context = useContext(UserContext);
   if (!context) {
-    throw new Error('useUser debe ser usado dentro de un UserProvider');
+    throw new Error('useUser must be used within a UserProvider');
   }
   return context;
 };
@@ -55,12 +55,12 @@ export const UserProvider = ({ children }) => {
         setGoldCached(Boolean(gold.cached));
 
         if (gold.isFallback) {
-          setError('Se está mostrando un precio de referencia temporal');
+          setError('A temporary reference price is currently being displayed');
         }
 
         return gold;
       } catch {
-        setError('No se pudo actualizar el precio del oro');
+        setError('The gold price could not be updated');
         return null;
       } finally {
         setGoldLoading(false);

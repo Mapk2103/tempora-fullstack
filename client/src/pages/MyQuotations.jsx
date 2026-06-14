@@ -16,7 +16,7 @@ const MyQuotations = () => {
       const response = await quotationsAPI.getMyQuotations();
       setQuotations(response.data.quotations);
     } catch (err) {
-      setError('Error al cargar cotizaciones');
+      setError('Unable to load your valuations');
     } finally {
       setLoading(false);
     }
@@ -24,38 +24,38 @@ const MyQuotations = () => {
 
   const getStatusBadge = (status) => {
     const statusMap = {
-      pending: { text: 'Pendiente', class: 'status-pending' },
-      reviewed: { text: 'Revisada', class: 'status-reviewed' },
-      approved: { text: 'Aprobada', class: 'status-approved' },
-      rejected: { text: 'Rechazada', class: 'status-rejected' },
-      completed: { text: 'Completada', class: 'status-completed' }
+      pending: { text: 'Pending', class: 'status-pending' },
+      reviewed: { text: 'Reviewed', class: 'status-reviewed' },
+      approved: { text: 'Approved', class: 'status-approved' },
+      rejected: { text: 'Rejected', class: 'status-rejected' },
+      completed: { text: 'Completed', class: 'status-completed' }
     };
     return statusMap[status] || { text: status, class: 'status-pending' };
   };
 
   const getTypeName = (type) => {
     const typeMap = {
-      jewelry: 'Joyería',
-      coins: 'Monedas',
-      bars: 'Lingotes'
+      jewelry: 'Jewelry',
+      coins: 'Coins',
+      bars: 'Gold Bars'
     };
     return typeMap[type] || type;
   };
 
   if (loading) {
-    return <div className="loading">Cargando cotizaciones...</div>;
+    return <div className="loading">Loading valuations...</div>;
   }
 
   return (
     <div className="quotations-container">
-      <h1>Mis Cotizaciones</h1>
+      <h1>My Valuations</h1>
 
       {error && <div className="error-message">{error}</div>}
 
       {quotations.length === 0 ? (
         <div className="no-quotations">
-          <h2>No tienes cotizaciones guardadas</h2>
-          <p>Realiza una cotización en la sección de Vender Oro</p>
+          <h2>You have no saved valuations</h2>
+          <p>Create a valuation from the Sell Gold page.</p>
         </div>
       ) : (
         <div className="quotations-grid">
@@ -66,37 +66,37 @@ const MyQuotations = () => {
                   {getStatusBadge(quotation.status).text}
                 </span>
                 <span className="quotation-date">
-                  {new Date(quotation.createdAt).toLocaleDateString('es-ES')}
+                  {new Date(quotation.createdAt).toLocaleDateString('en-US')}
                 </span>
               </div>
 
               <div className="quotation-details">
                 <div className="detail-row">
-                  <span className="label">Tipo:</span>
+                  <span className="label">Type:</span>
                   <span className="value">{getTypeName(quotation.type)}</span>
                 </div>
                 <div className="detail-row">
-                  <span className="label">Peso:</span>
+                  <span className="label">Weight:</span>
                   <span className="value">{quotation.weight}g</span>
                 </div>
                 <div className="detail-row">
-                  <span className="label">Pureza:</span>
+                  <span className="label">Purity:</span>
                   <span className="value">{quotation.purity}</span>
                 </div>
                 <div className="detail-row">
-                  <span className="label">Precio del Oro:</span>
+                  <span className="label">Gold Price:</span>
                   <span className="value">${quotation.goldPrice.toFixed(2)}/oz</span>
                 </div>
               </div>
 
               <div className="quotation-value">
-                <span className="value-label">Valor Estimado:</span>
+                <span className="value-label">Estimated Value:</span>
                 <span className="value-amount">${quotation.estimatedValue.toFixed(2)}</span>
               </div>
 
               {quotation.adminNotes && (
                 <div className="admin-notes">
-                  <strong>Notas del Administrador:</strong>
+                  <strong>Administrator Notes:</strong>
                   <p>{quotation.adminNotes}</p>
                 </div>
               )}

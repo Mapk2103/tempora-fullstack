@@ -9,7 +9,7 @@ const ProtectedRoute = ({ children, adminOnly = false }) => {
     return (
       <main className="page-state">
         <div className="state-spinner" aria-hidden="true" />
-        <h1>Validando sesión</h1>
+        <h1>Verifying your session</h1>
       </main>
     );
   }

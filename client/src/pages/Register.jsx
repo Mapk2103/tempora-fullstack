@@ -27,12 +27,12 @@ const Register = () => {
     setError('');
 
     if (formData.password !== formData.confirmPassword) {
-      setError('Las contraseñas no coinciden');
+      setError('Passwords do not match');
       return;
     }
 
     if (formData.password.length < 6) {
-      setError('La contraseña debe tener al menos 6 caracteres');
+      setError('Password must be at least 6 characters long');
       return;
     }
 
@@ -46,8 +46,8 @@ const Register = () => {
       };
       await register(registerData);
       navigate('/');
-    } catch (err) {
-      setError(err.response?.data?.message || 'Error al registrar usuario');
+    } catch {
+      setError('Unable to create your account. Please review your details.');
     } finally {
       setLoading(false);
     }
@@ -56,14 +56,14 @@ const Register = () => {
   return (
     <div className="auth-container">
       <div className="auth-card">
-        <h2>Crear Cuenta</h2>
-        <p className="auth-subtitle">Únete a la familia Témpora</p>
+        <h2>Create Account</h2>
+        <p className="auth-subtitle">Join the Témpora community</p>
 
         {error && <div className="error-message">{error}</div>}
 
         <form onSubmit={handleSubmit} className="auth-form">
           <div className="form-group">
-            <label htmlFor="name">Nombre Completo</label>
+            <label htmlFor="name">Full Name</label>
             <input
               type="text"
               id="name"
@@ -71,7 +71,7 @@ const Register = () => {
               value={formData.name}
               onChange={handleChange}
               required
-              placeholder="Juan Pérez"
+              placeholder="Alex Morgan"
             />
           </div>
 
@@ -84,12 +84,12 @@ const Register = () => {
               value={formData.email}
               onChange={handleChange}
               required
-              placeholder="tu@email.com"
+              placeholder="you@email.com"
             />
           </div>
 
           <div className="form-group">
-            <label htmlFor="password">Contraseña</label>
+            <label htmlFor="password">Password</label>
             <input
               type="password"
               id="password"
@@ -102,7 +102,7 @@ const Register = () => {
           </div>
 
           <div className="form-group">
-            <label htmlFor="confirmPassword">Confirmar Contraseña</label>
+            <label htmlFor="confirmPassword">Confirm Password</label>
             <input
               type="password"
               id="confirmPassword"
@@ -115,12 +115,12 @@ const Register = () => {
           </div>
 
           <button type="submit" className="auth-button" disabled={loading}>
-            {loading ? 'Creando cuenta...' : 'Registrarse'}
+            {loading ? 'Creating account...' : 'Sign Up'}
           </button>
         </form>
 
         <p className="auth-link">
-          ¿Ya tienes cuenta? <Link to="/login">Inicia sesión aquí</Link>
+          Already have an account? <Link to="/login">Log in here</Link>
         </p>
       </div>
     </div>
